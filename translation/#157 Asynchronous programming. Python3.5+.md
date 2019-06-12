@@ -44,13 +44,13 @@ What we have realized so far from the previous posts:
 
 我们从之前的文章中所讲：
 
-- **同步：**阻塞操作。
+- **同步**: 阻塞操作。
 
-- **异步：**非阻塞操作。
+- **异步**: 非阻塞操作。
 
-- **并发：**使程序同时被运行
+- **并发**: 使程序同时被运行
 
-- **并行：**使程序并行被执行
+- **并行**: 使程序并行被执行
 
 - **并行意味着并发**，但并发并不一定意味着并行
 
@@ -590,6 +590,7 @@ asyncio is a great library and it's cool that it was included into Python standa
 asyncio是一个很好用的库，已经被放进Python的标准库里了。asyncio已经开始为应用开发建造一个系统了（aiohttp，asyncpg，等）。这里也有一些其他的事件循环的实现（uvloop，dabeaz/curio，python-trio/trio）。我认为asyncio将会发展成一个很厉害的工具。
 
 ##Links
+
 ##链接
 
 - [PEP 342](https://www.python.org/dev/peps/pep-0342/)
