@@ -499,7 +499,7 @@ In the example here, the say() function pauses and gives back control to the eve
 
 This is how async code can have so many things happening at once - anything that's blocking calls await, and gets put onto the event loop's list of paused coroutines so something else can run. Everything that's paused has an associated callback that will wake it up again — some are time-based, some are I/O-based, and most of them are like the example above and waiting for a result from another coroutine.
 
-这就是异步代码为什么可以同时发生那么多事情的原因——任何方法阻塞当前调用使其进入等待，然后被放入事件循环的暂停协程列表，这样其他的程序就能够运行。每个被暂停的程序都有一个相关的回调，用于未来将它唤醒，有些是基于时间的，有些是基于I/O的，而大多数都像上面的例子一样，需要等待另一个协程的结果。
+这就是异步代码为什么可以同时发生那么多事情的原因——任何方法阻塞当前调用使其进入等待，然后被放入事件循环的暂停协程列表，这样其他的程序就能够运行。每个被暂停的程序都有一个相关的回调，用于未来将它唤醒，而这些程序被暂停有的是因为运行时间，有些是因为I/O操作，且大多数都像上面的例子一样，需要等待另一个协程的结果。
 
 Let's return to our example. We have two blocking functions cpu_bound and io_bound. As I said, we cannot mix synchronous and asynchronous operations — we must make all of them asynchronous. Naturally, not for everything there are asynchronous libraries. Some code remains blocking, and it must somehow be run so that it does not block our event loop. For this, there is a good run_in_executor() method, which runs what we passed to it in one of the threads of the built-in pool, without blocking the main thread with the event loop. We will use this functionality for our CPU-bound function. We will rewrite the I/O-bound function completely to await those moments when we are waiting for an event.
 
