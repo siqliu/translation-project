@@ -12,10 +12,10 @@ Whole series:
 
 整个系列如下：
 
-- Asynchronous programming. Blocking I/O and non-blocking I/O
-- Asynchronous programming. Cooperative multitasking
-- Asynchronous programming. Await the Future
-- Asynchronous programming. Python3.5+
+- [Asynchronous programming. Blocking I/O and non-blocking I/O](https://luminousmen.com/post/asynchronous-programming-blocking-and-non-blocking)
+- [Asynchronous programming. Cooperative multitasking](https://luminousmen.com/post/asynchronous-programming-cooperative-multitasking)
+- [Asynchronous programming. Await the Future](https://luminousmen.com/post/asynchronous-programming-await-the-future)
+- [Asynchronous programming. Python3.5+](https://luminousmen.com/post/asynchronous-programming-python3.5)
 
 In this post we will be talking about the Python stack on the concepts we talked so far: from the simplest like threads, processes to the asyncio library.
 
@@ -40,9 +40,9 @@ What we have realized so far from the previous posts:
 
 - **Parallelism:** Making progress in parallel.
 
-- **Parallelism implies Concurrency**. But __Concurrency doesn’t always mean Parallelism.__
+- **Parallelism implies Concurrency**. But Concurrency doesn’t always mean Parallelism.
 
-我们从之前的文章中所讲：
+我们从之前的文章中所讲的了解到：
 
 - **同步**: 阻塞操作。
 
@@ -52,7 +52,7 @@ What we have realized so far from the previous posts:
 
 - **并行**: 使程序并行被执行
 
-- **并行意味着并发**，但并发并不一定意味着并行
+- **并行意味着并发**，但[并发并不一定意味着并行](https://luminousmen.com/post/concurrency-and-parallelism-are-different)
 
 -------------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ In the synchronous Python world, which has existed for several decades, you call
 Python的同步方式已经存在了几十年，你直接调用函数，所有的程序都按照你写的代码按顺序处理。这里有几种方式可以并行的运行代码。
 
 ## Synchronous world
-## 同步
+## 同步的世界
 
 In this post we will be comparing different implementations of the same code. We will try to execute two functions. First one is calculating the power of number:
 
@@ -383,11 +383,11 @@ In an asynchronous world, everything changes a bit. Everything works in a centra
 
 Green threads are a primitive level of asynchronous programming. A green thread is a regular thread, except that switching between threads is done in the application code(on the user level), and not in the processor(OS level). The core of it is non-blocking operations. Switching between threads occurs only on I/O. Non-I/O threads will take control forever.
 
-绿色线程是异步编程的基础层。绿色线程与常规线程一样，除了它的线程切换实现是在应用程序中（用户层），而不是处理器（操作系统层）。它的核心是非阻塞操作。线程之间的切换仅在I/O上发生。非I/O线程将一直享有控制权。
+[绿色线程](https://luminousmen.com/post/asynchronous-programming-await-the-future)是异步编程的基础层。绿色线程与常规线程一样，除了它的线程切换实现是在应用程序中（用户层），而不是处理器（操作系统层）。它的核心是[非阻塞操作](https://luminousmen.com/post/asynchronous-programming-blocking-and-non-blocking)。线程之间的切换仅在I/O上发生。非I/O线程将一直享有控制权。
 
 Gevent is a well-known Python library for using green threads. Gevent is a green thread and non-blocking I/O. gevent.monkey modifies the behavior of standard Python libraries so that they allow non-blocking I/O operations to be performed.
 
-Gevent是一个目前非常广泛的绿色线程以及非阻塞的Python包。gevent.monkey方法改变了标准Python包，使得其可以允许非阻塞操作。
+[Gevent](http://www.gevent.org/)是一个目前非常广泛的绿色线程以及非阻塞的Python包。gevent.monkey方法改变了标准Python包，使得其可以允许非阻塞操作。
 
 Other libraries:
 
@@ -437,7 +437,7 @@ Slower for CPU-bound function, and faster for I/O-bound function. As expected.
 
 The asyncio package is described in the Python documentation as a library for writing parallel code. However, asyncio is not multithreaded and is not multiprocessing. It is not built on top of one of them.
 
-Asyncio在Python中是用来编写并行代码的库。然而，Asyncio并不是多线程和多进程的。它不是为了多线程和多进程而设计的。
+Asyncio在Python中是用来编写[并行代码的库](https://docs.python.org/3/library/asyncio.html)。然而，Asyncio并不是多线程和多进程的。它不是为了多线程和多进程而设计的。
 
 While Gevent and Twisted aim to be higher level frameworks, asyncio aims to be a lower-level implementation of an asynchronous event loop, with the intention that higher level frameworks like Twisted, Gevent or Tornado, will build on top of it. However, by itself, it makes a suitable framework on its own.
 
@@ -446,7 +446,7 @@ Gevent和Twisted的目标是作为高层级的框架。而Asyncio的目的是异
 
 In fact, asyncio is a single-threaded, single-process project: it uses cooperative multitasking. asyncio allows us to write asynchronous concurrent programs running in the same thread, using an event loop for scheduling tasks and multiplexing I/O through sockets (and other resources).
 
-事实上，Asyncio是一个处理多任务的单线程和单进程项目。Asyncio可以让我们在同一个线程上运行异步并发程序，通过事件循环来处理任务，通过sockets（或其他的资源）来多路复用I/O.
+事实上，Asyncio是一个[处理多任务](https://luminousmen.com/post/asynchronous-programming-cooperative-multitasking)的单线程和单进程项目。Asyncio可以让我们在同一个线程上运行异步并发程序，通过事件循环来处理任务，通过sockets（或其他的资源）来多路复用I/O.
 
 asyncio provides us an event loop along with other good stuff. The event loop tracks different I/O events and switches to tasks which are ready and pauses the ones which are waiting on I/O. Thus we don’t waste time on tasks which are not ready to run right now.
  
@@ -458,7 +458,7 @@ Asyncio提供很多有用的API，包括事件循环。事件循环追踪不同�
 
 Synchronous and asynchronous functions/callables are different types — you can't just mix them. If you block a coroutine synchronously — maybe you use time.sleep(10) rather than await asyncio.sleep(10) — you don't return control to the event loop — the entire process will block.
 
-同步和异步的方法/callables是不同的，你能不将他们混为一谈。如果你要阻塞了一个同步的协程，你要用time.sleep(10)而不是await asyncio.sleep(10)，你不需要将控制返回给事件循环，全部的进程都会被阻塞。
+同步和异步的方法或调用是不同的，你能不将他们混为一谈。如果你要阻塞了一个同步的协程，你要用time.sleep(10)而不是await asyncio.sleep(10)，你不需要将控制返回给事件循环，全部的进程都会被阻塞。
 
 You should think of your codebase as comprised of pieces of either sync code or async code — anything inside an async def is async code, anything else (including the main body of a Python file or class) is synchronous code.
 
@@ -503,7 +503,7 @@ This is how async code can have so many things happening at once - anything that
 
 Let's return to our example. We have two blocking functions cpu_bound and io_bound. As I said, we cannot mix synchronous and asynchronous operations — we must make all of them asynchronous. Naturally, not for everything there are asynchronous libraries. Some code remains blocking, and it must somehow be run so that it does not block our event loop. For this, there is a good run_in_executor() method, which runs what we passed to it in one of the threads of the built-in pool, without blocking the main thread with the event loop. We will use this functionality for our CPU-bound function. We will rewrite the I/O-bound function completely to await those moments when we are waiting for an event.
 
-让我们回到刚刚的例子。我们有两个阻塞的函数，计算密集型和I/O密集型。就像我说的那样，我们不能把同步和异步操作混在一起用——**而是必须把所有操作都变成异步的**。当然，不是所有东西都有异步库。**有些代码仍然是阻塞的**，必须以某种方式让它运行，不然会阻塞事件循环。这个问题的解决方法是，使用事件循环对象的 run_in_executor()方法，它会在线程池中新建一个线程来运行，而不会阻塞事件循环中的主线程。我们将在计算密集型方法中使用这个功能。我们也会完全重写I/O密集型方法，使其await那些我们需要等待的事件。
+让我们回到刚刚的例子。我们有两个阻塞的函数，计算密集型和I/O密集型。就像我说的那样，我们不能把同步和异步操作混在一起用——**而是必须把所有操作都变成异步的**。当然，不是所有东西都有异步库。**有些代码仍然是[阻塞](https://luminousmen.com/post/asynchronous-programming-blocking-and-non-blocking)的**，必须以某种方式让它运行，不然会阻塞事件循环。这个问题的解决方法是，使用事件循环对象的 run_in_executor()方法，它会在线程池中新建一个线程来运行，而不会阻塞事件循环中的主线程。我们将在计算密集型方法中使用这个功能。我们也会完全重写I/O密集型方法，使其await那些我们需要等待的事件。
 
 ```
 import asyncio
@@ -583,11 +583,11 @@ Even with conditional branching, loops, and function calls, we think about code 
 
 An asynchronous application behaves differently. It still running one step at a time, but the difference is that the system moving forward, it's not waiting for the completion of the current execution step. As a result, we are going to the event-driven programming.
 
-异步应用的表现是不一样的。它仍然是一次执行一个步骤，不同的地方在于系统会继续向前运行，不会等待当前执行结束。结果就是，我们将进行事件驱动的编程。
+异步应用的表现是不一样的。它仍然是一次执行一个步骤，不同的地方在于系统会继续向前运行，不会等待当前执行结束。结果就是，我们将进行[事件驱动的编程](https://en.wikipedia.org/wiki/Event-driven_programming)。
 
 asyncio is a great library and it's cool that it was included into Python standard library. asyncio has already begun to build an ecosystem (aiohttp, asyncpg, etc.) for application development. There are other event loop implementations (uvloop, dabeaz/curio, python-trio/trio), and I think the asyncio will evolve in even more powerful tool.
 
-asyncio是一个很好用的库，已经被放进Python的标准库里了。asyncio已经开始为应用开发建造一个系统了（aiohttp，asyncpg，等）。这里也有一些其他的事件循环的实现（uvloop，dabeaz/curio，python-trio/trio）。我认为asyncio将会发展成一个很厉害的工具。
+asyncio是一个很好用的库，已经被放进Python的标准库里了。asyncio已经开始为应用开发建造一个系统了（aiohttp，asyncpg，等）。这里也有一些其他的事件循环的实现（[uvloop](https://github.com/MagicStack/uvloop)，[dabeaz/curio](https://github.com/dabeaz/curio)，[python-trio/trio](https://github.com/python-trio/trio)）。我认为asyncio将会发展成一个很厉害的工具。
 
 ## Links
 
