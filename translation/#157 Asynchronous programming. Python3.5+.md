@@ -6,7 +6,7 @@
 
 This is a practical post of the series of asynchronous programming.
 
-这是一系列异步编程中的一篇实用文。
+这篇文章是Python异步编程系列文章中的一篇
 
 Whole series:
 
@@ -16,6 +16,11 @@ Whole series:
 - [Asynchronous programming. Cooperative multitasking](https://luminousmen.com/post/asynchronous-programming-cooperative-multitasking)
 - [Asynchronous programming. Await the Future](https://luminousmen.com/post/asynchronous-programming-await-the-future)
 - [Asynchronous programming. Python3.5+](https://luminousmen.com/post/asynchronous-programming-python3.5)
+
+- [异步编程，I/O阻塞和I/O非阻塞](https://luminousmen.com/post/asynchronous-programming-blocking-and-non-blocking)
+- [异步编程，多任务合作](https://luminousmen.com/post/asynchronous-programming-cooperative-multitasking)
+- [异步编程，Await和Future](https://luminousmen.com/post/asynchronous-programming-await-the-future)
+- [异步编程，Python3.5+](https://luminousmen.com/post/asynchronous-programming-python3.5)
 
 In this post we will be talking about the Python stack on the concepts we talked so far: from the simplest like threads, processes to the asyncio library.
 
@@ -87,7 +92,7 @@ def simple_1(N, a, b):
 ```
 And the second one is downloading data from the web:
 
-第二种是在网上下载数据：
+第二个是在网上下载数据：
 
 ```
 def io_bound(urls):
@@ -273,7 +278,7 @@ In the reference implementation of Python — CPython there is the infamous GIL 
 
 First of all, GIL is a lock that must be taken before any access to Python (and this is not only the execution of Python code but also calls to the Python C API). In essence, GIL is a global semaphore that does not allow more than one thread to work simultaneously within an interpreter.
 
-首先，GIL是一个锁，在访问Python之前必须带GIL（且不仅仅是执行Python代码，调用Python API时也是）。本质上，GIL是一个全局信号，GIL不允许多个线程在一个解释器中同时工作。
+首先，GIL是一个锁，在访问Python之前必须带GIL（且不仅仅是执行Python代码，调用Python API时也是）。本质上，GIL是一个全局信号量，GIL不允许多个线程在一个解释器中同时工作。
 
 Strictly speaking, the only calls available after running the interpreter with an uncaptured GIL are its capture. Violation of the rule leads to an instant crash (the best option) or delayed crash of the program (much worse and harder to debug).
 
@@ -293,7 +298,7 @@ But the thread cannot hold GIL indefinitely. Prior to Python 3.3, GIL switched e
 
 In fact, GIL in python makes the idea of ​​using threads for parallelism in computational problems(CPU-bound operations) useless. They will work sequentially even on a multiprocessor system. On CPU-bound tasks, the program will not accelerate, but only slow down, because now the threads will have to halve the processor time. At the same time, the GIL I/O operation will not slow down, since before the system call the thread releases the GIL.
 
-事实上，Python中通过使用线程解决计算机（CPU-绑定操作）并行的问题的想法，因为GIL而失效了。即使在多线程系统也是同步运行。在计算密集型任务中，程序运行不会加快，反而会变慢，因为线程减半了进程的时间，同时，I/O操作不会变慢，因为系统调用线程释放了GIL。
+事实上，Python中通过使用线程解决计算机（CPU-绑定操作）并行的问题的想法，因为 GIL 的存在而失效了。即使在多线程系统也是同步运行。在计算密集型任务中，程序运行不会加快，反而会变慢，因为线程减半了进程的时间，同时，I/O操作不会变慢，因为系统调用线程释放了GIL。
 
 It is clear that GIL slows down the execution of our program due to the additional work of creating and communicating threads, capturing and releasing the semaphore itself and preserving the context. But it needs to be mentioned that GIL does not limit parallel execution.
 
@@ -301,7 +306,8 @@ It is clear that GIL slows down the execution of our program due to the addition
 
 GIL is not part of the language and does not exist in all language implementations, but only in the above mentioned CPython.
 
-GIL不是一种语言，不存在任何一种语言实现。只是在CPython中被用到。
+GIL不是一种Python语言的一部分，不是每种实现都存在该问题。只是在 CPython 中被用到。
+
 
 *So why the heck does he even exist?*
 
